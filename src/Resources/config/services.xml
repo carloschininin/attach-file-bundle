@@ -14,6 +14,9 @@
         <defaults autowire="true" autoconfigure="true" public="false">
         </defaults>
         <prototype namespace="CarlosChininin\AttachFile\" resource="../../../src/*" exclude="../../../src/{DependencyInjection,Model,AttachFileBundle.php}"/>
+        <prototype namespace="CarlosChininin\AttachFile\Api\" resource="../../../src/Api/">
+            <tag name="controller.service_arguments"/>
+        </prototype>
         <service id="CarlosChininin\AttachFile\Service\AttachFileService">
             <argument key="$publicDirectory">%app.public_directory%</argument>
             <argument key="$attachFileDirectory">%app.attach_file_directory%</argument>
