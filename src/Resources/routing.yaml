@@ -1,0 +1,4 @@
+attach_file_download:
+  path: /attach_file/download/{secure}
+  methods: GET
+  controller: CarlosChininin\AttachFile\Api\DownloadApi
