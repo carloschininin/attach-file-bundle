@@ -10,12 +10,13 @@ declare(strict_types=1);
 namespace CarlosChininin\AttachFile\Service;
 
 use CarlosChininin\AttachFile\Model\AttachFile;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\HttpFoundation\UrlHelper;
 
-final class AttachFileUrlService
+class AttachFileUrlService
 {
     public function __construct(
-        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly UrlHelper $urlHelper,
+        private readonly string $attachFileDirectory,
     ) {
     }
 
@@ -25,8 +26,6 @@ final class AttachFileUrlService
             return null;
         }
 
-        return $this->urlGenerator->generate('attach_file_download', [
-            'secure' => $attachFile->secure(),
-        ], UrlGeneratorInterface::NETWORK_PATH);
+        return $this->urlHelper->getAbsoluteUrl($this->attachFileDirectory.$attachFile->filePath());
     }
 }

@@ -22,7 +22,7 @@ final class DownloadApi
     ) {
     }
 
-    public function __invoke(AttachFile $attachFile): Response
+    public function __invoke(AttachFile $attachFile, string $disposition = null): Response
     {
         $publicDirectory = $this->parameterBag->get('app.public_directory');
         $attachDirectory = $this->parameterBag->get('app.attach_file_directory');
@@ -30,8 +30,8 @@ final class DownloadApi
         $response = new BinaryFileResponse($filePath);
         $response->trustXSendfileTypeHeader();
         $response->setContentDisposition(
-            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-            $attachFile->name()
+            $disposition ?? ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            $attachFile->name() ?? $response->getFile()->getFilename()
         );
 
         return $response;
