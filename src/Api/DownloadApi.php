@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace CarlosChininin\AttachFile\Api;
 
+use CarlosChininin\AttachFile\Exception\FileNotFoundException;
 use CarlosChininin\AttachFile\Model\AttachFile;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -27,10 +28,13 @@ final class DownloadApi
         $publicDirectory = $this->parameterBag->get('app.public_directory');
         $attachDirectory = $this->parameterBag->get('app.attach_file_directory');
         $filePath = $publicDirectory.$attachDirectory.$attachFile->filePath();
+        if (!file_exists($filePath)) {
+            throw new FileNotFoundException(sprintf('The file %s not found in %s', $attachFile->name(), $filePath));
+        }
         $response = new BinaryFileResponse($filePath);
         $response->trustXSendfileTypeHeader();
         $response->setContentDisposition(
-            $disposition ?? ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            $disposition ?? ResponseHeaderBag::DISPOSITION_INLINE,
             $attachFile->name() ?? $response->getFile()->getFilename()
         );
 

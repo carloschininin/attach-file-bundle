@@ -20,7 +20,7 @@ final class AttachFileDownloadService
     ) {
     }
 
-    public function get(?AttachFile $attachFile, string $disposition = ResponseHeaderBag::DISPOSITION_ATTACHMENT): ?string
+    public function get(?AttachFile $attachFile, string $disposition = ResponseHeaderBag::DISPOSITION_INLINE): ?string
     {
         if (null === $attachFile) {
             return null;

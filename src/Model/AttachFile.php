@@ -13,6 +13,9 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class AttachFile
 {
+    public const NAME_LENGTH = 64;
+    public const FOLDER_LENGTH = 64;
+
     private ?int $id = null;
     private ?string $name = null;
     private ?string $secure = null;
@@ -32,6 +35,14 @@ class AttachFile
 
     public function setName(?string $name): void
     {
+        if (null !== $name && mb_strlen($name) > self::NAME_LENGTH) {
+            $partName = pathinfo($name, PATHINFO_FILENAME);
+            $partExt = pathinfo($name, PATHINFO_EXTENSION);
+            $length = self::NAME_LENGTH - mb_strlen($partExt) - 5;
+            $partName = mb_substr($partName, 0, $length).'-'.mt_rand(100, 999);
+            $name = $partName.'.'.$partExt;
+        }
+
         $this->name = $name;
     }
 
@@ -52,6 +63,20 @@ class AttachFile
 
     public function setFolder(?string $folder): void
     {
+        if (null === $folder || '' === trim($folder)) {
+            $this->folder = '';
+
+            return;
+        }
+
+        if (!str_starts_with($folder, '/')) {
+            $folder = '/'.$folder;
+        }
+
+        if (mb_strlen($folder) > self::FOLDER_LENGTH) {
+            $folder = mb_substr($folder, 0, self::FOLDER_LENGTH);
+        }
+
         $this->folder = $folder;
     }
 
