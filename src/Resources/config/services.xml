@@ -23,7 +23,6 @@
         </service>
         <service id="CarlosChininin\AttachFile\Service\AttachFileUrlService">
             <argument type="service" id="url_helper"/>
-            <argument key="$attachFileDirectory">%app.attach_file_directory%</argument>
         </service>
         <service id="table.listener.prefix" class="CarlosChininin\AttachFile\EventListener\TablePrefixListener">
             <call method="setPrefix">

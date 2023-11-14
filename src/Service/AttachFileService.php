@@ -29,13 +29,15 @@ class AttachFileService
         }
 
         $file = $entity->file();
-
-        if ($file instanceof UploadedFile) {
-            $previousPath = $entity->filePath();
-            $secure = $this->upload($file, $entity->folder());
-            $entity->setSecure($secure);
-            $this->remove($previousPath);
+        if (!$file instanceof UploadedFile) {
+            return;
         }
+
+        $previousPath = $entity->filePath();
+        $secure = $this->upload($file, $entity->folder());
+        $entity->setSecure($secure);
+        $entity->setAttachDirectory($this->attachFileDirectory);
+        $this->remove($previousPath);
     }
 
     public function upload(UploadedFile $file, string $folder = null): string
@@ -68,7 +70,7 @@ class AttachFileService
             return;
         }
 
-        $file = $this->getTargetDirectory().$fileName;
+        $file = $this->publicDirectory.$fileName;
 
         if (file_exists($file)) {
             unlink($file);

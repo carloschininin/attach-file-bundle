@@ -20,6 +20,7 @@ class AttachFile
     private ?string $name = null;
     private ?string $secure = null;
     private ?string $folder = null;
+    private ?string $attachDirectory = null;
 
     private ?UploadedFile $file = null;
 
@@ -80,6 +81,16 @@ class AttachFile
         $this->folder = $folder;
     }
 
+    public function attachDirectory(): ?string
+    {
+        return $this->attachDirectory;
+    }
+
+    public function setAttachDirectory(string $attachDirectory): void
+    {
+        $this->attachDirectory = $attachDirectory;
+    }
+
     public function file(): ?UploadedFile
     {
         return $this->file;
@@ -99,6 +110,11 @@ class AttachFile
             return null;
         }
 
-        return $this->folder().'/'.$this->secure();
+        $path = $this->attachDirectory();
+        if (null !== ($folder = $this->folder())) {
+            $path .= $folder;
+        }
+
+        return $path.'/'.$this->secure();
     }
 }

@@ -16,7 +16,6 @@ class AttachFileUrlService
 {
     public function __construct(
         private readonly UrlHelper $urlHelper,
-        private readonly string $attachFileDirectory,
     ) {
     }
 
@@ -26,6 +25,6 @@ class AttachFileUrlService
             return null;
         }
 
-        return $this->urlHelper->getAbsoluteUrl($this->attachFileDirectory.$attachFile->filePath());
+        return $this->urlHelper->getAbsoluteUrl($attachFile->filePath());
     }
 }

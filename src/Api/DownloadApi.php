@@ -26,8 +26,7 @@ final class DownloadApi
     public function __invoke(AttachFile $attachFile, string $disposition = null): Response
     {
         $publicDirectory = $this->parameterBag->get('app.public_directory');
-        $attachDirectory = $this->parameterBag->get('app.attach_file_directory');
-        $filePath = $publicDirectory.$attachDirectory.$attachFile->filePath();
+        $filePath = $publicDirectory.$attachFile->filePath();
         if (!file_exists($filePath)) {
             throw new FileNotFoundException(sprintf('The file %s not found in %s', $attachFile->name(), $filePath));
         }
