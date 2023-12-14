@@ -14,7 +14,6 @@ use CarlosChininin\AttachFile\Model\AttachFile;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 final class DownloadApi
 {
@@ -33,7 +32,7 @@ final class DownloadApi
         $response = new BinaryFileResponse($filePath);
         $response->trustXSendfileTypeHeader();
         $response->setContentDisposition(
-            $disposition ?? ResponseHeaderBag::DISPOSITION_INLINE,
+            $disposition ?? AttachFile::INLINE,
             $attachFile->name() ?? $response->getFile()->getFilename()
         );
 

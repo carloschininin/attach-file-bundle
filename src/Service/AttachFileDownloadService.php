@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace CarlosChininin\AttachFile\Service;
 
 use CarlosChininin\AttachFile\Model\AttachFile;
-use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 final class AttachFileDownloadService
@@ -20,15 +19,19 @@ final class AttachFileDownloadService
     ) {
     }
 
-    public function get(?AttachFile $attachFile, string $disposition = ResponseHeaderBag::DISPOSITION_INLINE): ?string
+    public function get(?AttachFile $attachFile, string $disposition = AttachFile::INLINE, bool $urlShort = true): ?string
     {
         if (null === $attachFile) {
             return null;
         }
 
-        return $this->urlGenerator->generate('attach_file_download', [
-            'secure' => $attachFile->secure(),
-            'disposition' => $disposition,
-        ], UrlGeneratorInterface::ABSOLUTE_URL);
+        return $this->urlGenerator->generate(
+            name: $urlShort ? 'attach_file_download_short' : 'attach_file_download',
+            parameters: [
+                'secure' => $attachFile->secure(),
+                'disposition' => (AttachFile::INLINE !== $disposition) ? $disposition : null,
+            ],
+            referenceType: UrlGeneratorInterface::ABSOLUTE_URL,
+        );
     }
 }

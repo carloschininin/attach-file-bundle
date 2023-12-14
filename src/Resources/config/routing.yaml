@@ -2,3 +2,12 @@ attach_file_download:
   path: /download/af/{secure}/{disposition}
   methods: GET
   controller: CarlosChininin\AttachFile\Api\DownloadApi
+  defaults:
+    disposition: inline
+
+attach_file_download_short:
+  path: /d/{secure}/{disposition}
+  methods: GET
+  controller: CarlosChininin\AttachFile\Api\DownloadApi
+  defaults:
+    disposition: inline

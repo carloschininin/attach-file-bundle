@@ -10,11 +10,15 @@ declare(strict_types=1);
 namespace CarlosChininin\AttachFile\Model;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class AttachFile
 {
     public const NAME_LENGTH = 64;
     public const FOLDER_LENGTH = 64;
+
+    public const INLINE = ResponseHeaderBag::DISPOSITION_INLINE;
+    public const ATTACHMENT = ResponseHeaderBag::DISPOSITION_ATTACHMENT;
 
     private ?int $id = null;
     private ?string $name = null;
