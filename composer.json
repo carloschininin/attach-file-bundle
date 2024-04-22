@@ -1,7 +1,7 @@
 {
     "name": "carloschininin/attach-file-bundle",
     "description": "Upload files",
-    "type": "project",
+    "type": "symfony-bundle",
     "minimum-stability": "stable",
     "authors": [
         {
