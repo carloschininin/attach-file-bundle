@@ -28,6 +28,7 @@
     },
     "suggest": {
         "ext-gd": "PHP GD image library",
-        "imagine/imagine": "Image library"
+        "imagine/imagine": "Image library",
+        "symfony/form": "Symfony forms component"
     }
 }
