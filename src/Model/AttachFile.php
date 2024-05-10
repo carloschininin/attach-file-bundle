@@ -41,8 +41,8 @@ class AttachFile
     public function setName(?string $name): void
     {
         if (null !== $name && mb_strlen($name) > self::NAME_LENGTH) {
-            $partName = pathinfo($name, PATHINFO_FILENAME);
-            $partExt = pathinfo($name, PATHINFO_EXTENSION);
+            $partName = pathinfo($name, \PATHINFO_FILENAME);
+            $partExt = pathinfo($name, \PATHINFO_EXTENSION);
             $length = self::NAME_LENGTH - mb_strlen($partExt) - 5;
             $partName = mb_substr($partName, 0, $length).'-'.mt_rand(100, 999);
             $name = $partName.'.'.$partExt;
