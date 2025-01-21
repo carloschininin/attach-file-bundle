@@ -12,10 +12,10 @@ namespace CarlosChininin\AttachFile\Service;
 use CarlosChininin\AttachFile\Model\AttachFile;
 use Symfony\Component\HttpFoundation\UrlHelper;
 
-class AttachFileUrlService
+readonly class AttachFileUrlService
 {
     public function __construct(
-        private readonly UrlHelper $urlHelper,
+        private UrlHelper $urlHelper,
     ) {
     }
 

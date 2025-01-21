@@ -12,10 +12,10 @@ namespace CarlosChininin\AttachFile\Service;
 use CarlosChininin\AttachFile\Model\AttachFile;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-final class AttachFileDownloadService
+final readonly class AttachFileDownloadService
 {
     public function __construct(
-        private readonly UrlGeneratorInterface $urlGenerator,
+        private UrlGeneratorInterface $urlGenerator,
     ) {
     }
 

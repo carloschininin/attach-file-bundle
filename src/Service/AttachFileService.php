@@ -14,11 +14,11 @@ use CarlosChininin\AttachFile\Model\AttachFile;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class AttachFileService
+readonly class AttachFileService
 {
     public function __construct(
-        private readonly string $publicDirectory,
-        private readonly string $attachFileDirectory
+        private string $publicDirectory,
+        private string $attachFileDirectory,
     ) {
     }
 
@@ -40,7 +40,7 @@ class AttachFileService
         $this->remove($previousPath);
     }
 
-    public function upload(UploadedFile $file, string $folder = null): string
+    public function upload(UploadedFile $file, ?string $folder = null): string
     {
         $secure = $this->createName($file, $folder);
 
@@ -48,7 +48,7 @@ class AttachFileService
             $path = $this->getTargetDirectory().$folder;
             $file->move($path, $secure);
         } catch (FileException) {
-            throw new FileCreateException(sprintf('The file %s could not be created in %s', $secure, $path));
+            throw new FileCreateException(\sprintf('The file %s could not be created in %s', $secure, $path));
         }
 
         return $secure;

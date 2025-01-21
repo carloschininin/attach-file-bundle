@@ -19,10 +19,10 @@ use Doctrine\ORM\Events;
 #[AsDoctrineListener(event: Events::prePersist)]
 #[AsDoctrineListener(event: Events::preUpdate)]
 #[AsDoctrineListener(event: Events::preRemove)]
-final class AttachFileListener
+final readonly class AttachFileListener
 {
     public function __construct(
-        private readonly AttachFileService $fileService
+        private AttachFileService $fileService,
     ) {
     }
 
