@@ -6,7 +6,8 @@
 
     <parameters>
         <parameter key="app.public_directory">%kernel.project_dir%/public</parameter>
-        <parameter key="app.attach_file_directory">/upload</parameter>
+        <parameter key="app.attach_file_directory">/media</parameter>
+        <parameter key="app.attach_file_safe">0</parameter>
         <parameter key="app.attach_file_table_prefix"/>
     </parameters>
 
@@ -20,6 +21,7 @@
         <service id="CarlosChininin\AttachFile\Service\AttachFileService">
             <argument key="$publicDirectory">%app.public_directory%</argument>
             <argument key="$attachFileDirectory">%app.attach_file_directory%</argument>
+            <argument key="$isSafe">%app.attach_file_safe%</argument>
         </service>
         <service id="CarlosChininin\AttachFile\Service\AttachFileUrlService">
             <argument type="service" id="url_helper"/>

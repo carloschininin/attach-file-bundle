@@ -11,14 +11,16 @@ namespace CarlosChininin\AttachFile\Service;
 
 use CarlosChininin\AttachFile\Exception\FileCreateException;
 use CarlosChininin\AttachFile\Model\AttachFile;
+use Random\RandomException;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-readonly class AttachFileService
+class AttachFileService
 {
     public function __construct(
-        private string $publicDirectory,
-        private string $attachFileDirectory,
+        private readonly string $publicDirectory,
+        private readonly string $attachFileDirectory,
+        private readonly bool $isSafe,
     ) {
     }
 
@@ -87,9 +89,25 @@ readonly class AttachFileService
         $extension = $file->getClientOriginalExtension();
         $path = $this->getTargetDirectory().$folder.'/';
         do {
-            $fileName = uniqid().'.'.$extension;
+            $fileName = $this->generateName($extension);
         } while (file_exists($path.$fileName)); // Repeat if file name exists.
 
         return $fileName;
+    }
+
+    protected function generateName(string $extension): string
+    {
+        if($this->isSafe) {
+            try {
+                $name = base_convert((string)hexdec(bin2hex(random_bytes(8))), 10, 36);
+                $name = substr($name, 0, AttachFile::SECURE_LENGTH - strlen($extension) - 1);
+            } catch (RandomException) {
+                $name = uniqid();
+            }
+        } else {
+            $name = uniqid();
+        }
+
+        return $name . '.' . $extension;
     }
 }

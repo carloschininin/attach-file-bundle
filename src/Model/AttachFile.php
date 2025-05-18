@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 class AttachFile
 {
     public const NAME_LENGTH = 64;
+    public const SECURE_LENGTH = 21;
     public const FOLDER_LENGTH = 64;
 
     public const INLINE = ResponseHeaderBag::DISPOSITION_INLINE;
