@@ -1,0 +1,86 @@
+{% block attach_file_widget %}
+    {% if value and render %}
+        {% if render.value == 'image' %}
+            <div class="row">
+                <div class="col-auto pe-0">
+                    <a class="d-flex align-items-center h-100" href="{{ path('attach_file_download_short', {secure: value.secure}) }}"
+                       target="_blank" title="{{ value.name }}">
+                        <img class="img-avatar img-avatar32" src="{{ asset(value.filePath) | imagine_filter('mini') }}" alt="Photo" />
+                    </a>
+                </div>
+                <div class="col">
+                    {{- form_widget(form.file) -}}
+                </div>
+            </div>
+        {% elseif render.value == 'link' %}
+            <div class="row">
+                <div class="col-auto pe-0">
+                    <a class="d-flex align-items-center h-100" href="{{ path('attach_file_download_short', {secure: value.secure}) }}"
+                       target="_blank" title="{{ value.name }}">
+                        <span class="">
+                            <i class="fs-4 fa fa-paperclip"></i>
+                        </span>
+                    </a>
+                </div>
+                <div class="col">
+                    {{- form_widget(form.file) -}}
+                </div>
+            </div>
+        {% elseif render.value == 'name' %}
+            {{- form_widget(form.file) -}}
+            <div class="form-text">
+                <a class="small fw-medium" href="{{ path('attach_file_download_short', {secure: value.secure}) }}" target="_blank">
+                    <i class="fa fa-link"></i> {{ value.name }}
+                </a>
+            </div>
+        {% else %}
+            {{- form_widget(form.file) -}}
+        {% endif %}
+    {% else %}
+        {{- form_widget(form.file) -}}
+    {% endif %}
+{% endblock %}
+
+{% block attach_file_deleted_widget %}
+    {% set render_type = value and render ? render.value : null %}
+
+    <div class="input-group file-input-container" data-file-input>
+        {% if render_type == 'image' %}
+            <a class="d-flex align-items-center h-100 me-2" href="{{ path('attach_file_download_short', {secure: value.secure}) }}" target="_blank" title="{{ value.name }}">
+                <img class="img-avatar img-avatar32" src="{{ asset(value.filePath) | imagine_filter('mini') }}" alt="Photo" />
+            </a>
+        {% endif %}
+        {% if render_type == 'link' %}
+            <span class="input-group-text">
+                <a class="d-flex align-items-center h-100" href="{{ path('attach_file_download_short', {secure: value.secure}) }}" target="_blank" title="Visualizar archivo">
+                    <i class="fs-4 fa fa-paperclip"></i>
+                </a>
+            </span>
+        {% else %}
+            <span class="input-group-text">
+                <i class="fas fa-paperclip"></i>
+            </span>
+        {% endif %}
+
+        <div class="form-control file-zone position-relative">
+            {{- form_widget(form.file) -}}
+            <span class="file-text">{{ value.name ?? 'Seleccionar ...' }}</span>
+        </div>
+
+        <button class="btn delete-btn {% if not value %}d-none{% endif %}" type="button" title="Eliminar archivo">
+            <i class="far fa-trash-can text-danger"></i>
+        </button>
+
+        <div class="d-none">
+            {{- form_widget(form.isDeleted) -}}
+        </div>
+    </div>
+
+    {% if render_type == 'name' %}
+        <div class="form-text">
+            <a class="small fw-medium" href="{{ path('attach_file_download_short', {secure: value.secure}) }}" target="_blank" title="Visualizar archivo">
+                <i class="fa fa-download"></i> {{ value.name }}
+            </a>
+        </div>
+    {% endif %}
+{% endblock %}

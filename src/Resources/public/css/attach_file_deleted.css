@@ -1,0 +1,43 @@
+.file-input-container {
+    border-radius: 4px;
+    background: white;
+}
+
+.file-input-container:hover {
+    border-color: #86b7fe;
+}
+
+.file-input-container.has-file {
+    border: 1px solid #28a745;
+}
+
+.file-input-container.delete-mode {
+    border: 1px solid #dc3545;
+}
+
+.file-input-container .file-text {
+    display: block;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.file-input-hidden {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.file-zone {
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.file-zone:hover {
+    background-color: #f8f9fa;
+}
+
+.delete-btn.active {
+    color: white;
+}

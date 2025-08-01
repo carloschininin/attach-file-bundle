@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace CarlosChininin\AttachFile\Model;
 
+use CarlosChininin\AttachFile\Helper\FileHelper;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
@@ -29,6 +30,14 @@ class AttachFile
 
     private ?UploadedFile $file = null;
 
+    private \DateTimeImmutable $updatedAt;
+    private bool $isDeleted = false;
+
+    public function __construct()
+    {
+        $this->updatedAt = new \DateTimeImmutable();
+    }
+
     public function id(): ?int
     {
         return $this->id;
@@ -41,15 +50,7 @@ class AttachFile
 
     public function setName(?string $name): void
     {
-        if (null !== $name && mb_strlen($name) > self::NAME_LENGTH) {
-            $partName = pathinfo($name, \PATHINFO_FILENAME);
-            $partExt = pathinfo($name, \PATHINFO_EXTENSION);
-            $length = self::NAME_LENGTH - mb_strlen($partExt) - 5;
-            $partName = mb_substr($partName, 0, $length).'-'.mt_rand(100, 999);
-            $name = $partName.'.'.$partExt;
-        }
-
-        $this->name = $name;
+        $this->name = FileHelper::sanitizeFilename($name, self::NAME_LENGTH);
     }
 
     public function secure(): ?string
@@ -69,7 +70,8 @@ class AttachFile
 
     public function setFolder(?string $folder): void
     {
-        if (null === $folder || '' === trim($folder)) {
+        $folder = FileHelper::sanitizeFolder($folder, self::FOLDER_LENGTH);
+        if (empty($folder)) {
             $this->folder = '';
 
             return;
@@ -77,10 +79,6 @@ class AttachFile
 
         if (!str_starts_with($folder, '/')) {
             $folder = '/'.$folder;
-        }
-
-        if (mb_strlen($folder) > self::FOLDER_LENGTH) {
-            $folder = mb_substr($folder, 0, self::FOLDER_LENGTH);
         }
 
         $this->folder = $folder;
@@ -106,6 +104,7 @@ class AttachFile
         if (null !== $file) {
             $this->setName($file->getClientOriginalName());
             $this->file = $file;
+            $this->updatedAt = new \DateTimeImmutable();
         }
     }
 
@@ -121,5 +120,25 @@ class AttachFile
         }
 
         return $path.'/'.$this->secure();
+    }
+
+    public function isDeleted(): bool
+    {
+        return $this->isDeleted;
+    }
+
+    public function setIsDeleted(bool $isDeleted): void
+    {
+        $this->isDeleted = $isDeleted;
+    }
+
+    public function __serialize(): array
+    {
+        return [$this->id, $this->secure, $this->updatedAt];
+    }
+
+    public function __unserialize(array $data): void
+    {
+        [$this->id, $this->secure, $this->updatedAt] = $data;
     }
 }

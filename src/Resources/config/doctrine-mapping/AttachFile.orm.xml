@@ -13,5 +13,6 @@
         <field name="secure" column="secure" length="18" unique="true" />
         <field name="folder" column="folder" length="64" nullable="true" />
         <field name="attachDirectory" column="attach_directory" length="24" nullable="true" />
+        <field type="datetime_immutable" name="updatedAt" column="updated_at" nullable="true" />
     </entity>
 </doctrine-mapping>
