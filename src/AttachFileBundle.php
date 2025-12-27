@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace CarlosChininin\AttachFile;
 
-use CarlosChininin\AttachFile\Model\AttachFile;
 use Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\DoctrineOrmMappingsPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
