@@ -21,7 +21,7 @@ return static function (ContainerConfigurator $container) {
 
     $services->load('CarlosChininin\\AttachFile\\', '../../../src/*')
         ->exclude([
-            '../../../src/{DependencyInjection,Model,AttachFileBundle.php}',
+            '../../../src/{DependencyInjection,Model,Resources,AttachFileBundle.php}',
         ]);
 
     $services->load('CarlosChininin\\AttachFile\\Api\\', '../../../src/Api/')
