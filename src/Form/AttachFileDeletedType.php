@@ -25,9 +25,11 @@ class AttachFileDeletedType extends AbstractType
         $builder
             ->add('isDeleted', CheckboxType::class, [
                 'label' => false,
+                'required' => false,
             ])
             ->add('file', FileType::class, [
                 'label' => false,
+                'required' => false,
                 'attr' => ['class' => 'file-input-hidden'],
             ]);
     }

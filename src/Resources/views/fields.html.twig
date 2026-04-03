@@ -45,12 +45,12 @@
     {% set render_type = value and render ? render.value : null %}
 
     <div class="input-group file-input-container" data-file-input>
-        {% if render_type == 'image' %}
+        {% if value and value.secure and render_type == 'image' %}
             <a class="d-flex align-items-center h-100 me-2" href="{{ path('attach_file_download_short', {secure: value.secure}) }}" target="_blank" title="{{ value.name }}">
                 <img class="img-avatar img-avatar32" src="{{ asset(value.filePath) | imagine_filter('mini') }}" alt="Photo" />
             </a>
         {% endif %}
-        {% if render_type == 'link' %}
+        {% if value and value.secure and render_type == 'link' %}
             <span class="input-group-text">
                 <a class="d-flex align-items-center h-100" href="{{ path('attach_file_download_short', {secure: value.secure}) }}" target="_blank" title="Visualizar archivo">
                     <i class="fs-4 fa fa-paperclip"></i>
