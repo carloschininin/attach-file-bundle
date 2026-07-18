@@ -63,7 +63,7 @@
         {% endif %}
 
         <div class="form-control file-zone position-relative">
-            {{- form_widget(form.file) -}}
+            {{- form_widget(form.file, {required: false}) -}}
             <span class="file-text">{{ value.name ?? 'Seleccionar ...' }}</span>
         </div>
 
@@ -72,7 +72,7 @@
         </button>
 
         <div class="d-none">
-            {{- form_widget(form.isDeleted) -}}
+            {{- form_widget(form.isDeleted, {required: false}) -}}
         </div>
     </div>
 

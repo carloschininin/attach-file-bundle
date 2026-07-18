@@ -39,6 +39,15 @@ class AttachFileDeletedType extends AbstractType
         $view->vars['render'] = $options['render'] ?? null;
     }
 
+    public function finishView(FormView $view, FormInterface $form, array $options): void
+    {
+        foreach (['isDeleted', 'file'] as $childName) {
+            if (isset($view->children[$childName])) {
+                $view->children[$childName]->vars['required'] = false;
+            }
+        }
+    }
+
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
